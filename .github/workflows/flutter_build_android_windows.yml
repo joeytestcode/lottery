@@ -1,0 +1,26 @@
+name: Build android
+
+on: 
+  push:
+    branches: [ "master" ]
+
+
+jobs:
+  build_windows:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'master'
+      - run: flutter pub get
+      - run: flutter config --enable-android
+      - run: flutter build apk --release
+      - run: mkdir build/app/outputs/flutter-apk/result
+      - run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/result/${{github.event.repository.name}}.apk
+      - run: git config user.name github-actions
+      - run: git config user.email github-actions@github.com
+      - run: git --work-tree build/app/outputs/flutter-apk/result add --all
+      - run: git commit -m "Automatic deployment by github-actions"
+      - run: git push origin HEAD:buildAPK --force
