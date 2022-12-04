@@ -44,16 +44,18 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: const Text(appTitle)),
       body: Consumer<Lottery>(
         builder: (context, lottery, child) {
-          return Column(children: [
-            ...getColumn(lottery.luckyNumbers),
-            ElevatedButton(
-              onPressed: () => lottery.getLuckyNumbers(),
-              child: const Text(
-                'Shuffle',
-                style: TextStyle(fontSize: 47),
-              ),
-            )
-          ]);
+          return lottery.luckyNumbers.isEmpty
+              ? const Center(child: CircularProgressIndicator())
+              : Column(children: [
+                  ...getColumn(lottery.luckyNumbers),
+                  ElevatedButton(
+                    onPressed: () => lottery.getLuckyNumbers(),
+                    child: const Text(
+                      'Shuffle',
+                      style: TextStyle(fontSize: 47),
+                    ),
+                  )
+                ]);
         },
       ),
     );
