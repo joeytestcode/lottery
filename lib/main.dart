@@ -67,7 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
       children: numbers
           .map((e) => Text(
                 e.toString(),
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 47),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 47),
               ))
           .toList(),
     );
