@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget getRow(List<int> numbers) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: numbers
           .map((e) => Text(
                 e.toString(),
