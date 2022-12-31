@@ -34,6 +34,33 @@ class Lottery extends ChangeNotifier {
         }
         randomNumbers.sort();
       } while (randomNumbers.length < 6);
+      final int sum = randomNumbers.reduce(
+        (value, element) => value + element,
+      );
+      if (!winList.contains(randomNumbers) && sum > 81 && sum < 191) {
+        luckyNumbers.add(randomNumbers);
+      }
+    } while (luckyNumbers.length < 5);
+
+    notifyListeners();
+  }
+
+  Future<void> _getLuckyNumbers() async {
+    luckyNumbers.clear();
+    do {
+      List<int> randomNumbers = [];
+      do {
+        final randomNumber = history[Random().nextInt(history.length)];
+
+        if (!randomNumbers.contains(randomNumber) &&
+            !luckyNumbers
+                .expand((element) => element)
+                .toList()
+                .contains(randomNumber)) {
+          randomNumbers.add(randomNumber);
+        }
+        randomNumbers.sort();
+      } while (randomNumbers.length < 6);
       if (!winList.contains(randomNumbers)) {
         luckyNumbers.add(randomNumbers);
       }
