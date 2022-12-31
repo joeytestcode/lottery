@@ -70,7 +70,7 @@ class Lottery extends ChangeNotifier {
   }
 
   Future<void> _getHistory() async {
-    final documentLastTurn = await GetWebpage.getDocument(pageLastTurn);
+    final documentLastTurn = await GetWeb.getDocument(pageLastTurn);
     final lastTurn = documentLastTurn
             .querySelector(selectorLastTurn)
             ?.text
@@ -78,7 +78,7 @@ class Lottery extends ChangeNotifier {
         '-1';
 
     final documentHistory =
-        await GetWebpage.getDocument(pageHistoryBase + lastTurn);
+        await GetWeb.getDocument(pageHistoryBase + lastTurn);
     final List<dom.Element> elements =
         documentHistory.querySelectorAll(selectorHistory);
     for (final element in elements) {
