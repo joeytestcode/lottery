@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:common/get_webpage.dart';
+import 'package:common/web_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:lottery/settings.dart';
@@ -45,32 +45,8 @@ class Lottery extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _getLuckyNumbers() async {
-    luckyNumbers.clear();
-    do {
-      List<int> randomNumbers = [];
-      do {
-        final randomNumber = history[Random().nextInt(history.length)];
-
-        if (!randomNumbers.contains(randomNumber) &&
-            !luckyNumbers
-                .expand((element) => element)
-                .toList()
-                .contains(randomNumber)) {
-          randomNumbers.add(randomNumber);
-        }
-        randomNumbers.sort();
-      } while (randomNumbers.length < 6);
-      if (!winList.contains(randomNumbers)) {
-        luckyNumbers.add(randomNumbers);
-      }
-    } while (luckyNumbers.length < 5);
-
-    notifyListeners();
-  }
-
   Future<void> _getHistory() async {
-    final documentLastTurn = await GetWebpage.getDocument(pageLastTurn);
+    final documentLastTurn = await WebHelper.getDocument(pageLastTurn);
     final lastTurn = documentLastTurn
             .querySelector(selectorLastTurn)
             ?.text
@@ -78,7 +54,7 @@ class Lottery extends ChangeNotifier {
         '-1';
 
     final documentHistory =
-        await GetWebpage.getDocument(pageHistoryBase + lastTurn);
+        await WebHelper.getDocument(pageHistoryBase + lastTurn);
     final List<dom.Element> elements =
         documentHistory.querySelectorAll(selectorHistory);
     for (final element in elements) {
